@@ -1,6 +1,6 @@
 import argparse
 import os
-from page_loader.loader import download
+from page_loader.loading import download
 
 
 def get_parser():
