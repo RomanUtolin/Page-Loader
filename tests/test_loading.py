@@ -1,19 +1,23 @@
 import os
 import tempfile
+import pytest
+
 from page_loader.loading import download
 
 
-def test_loading():
+@pytest.fixture
+def mock(requests_mock):
+    return requests_mock.get('http://test.com/dir/test', text='test')
+
+
+def test_loading(mock):
     with tempfile.TemporaryDirectory() as tmp:
-        test_dir = download('https://ru.hexlet.io/courses', tmp)
-        right_dir = os.path.join(tmp, 'ru-hexlet-io-courses.html')
+        test_dir = download('http://test.com/dir/test', tmp)
+        right_dir = os.path.join(tmp, 'test-com-dir-test.html')
         assert test_dir == right_dir
 
 
-def test_parser():
+def test_parser(mock):
     with tempfile.TemporaryDirectory() as tmp:
-        with open(download('http://seclub.org', tmp)) as f:
-            test_file = f.read()
-        with open("./tests/fixtures/right.html") as f:
-            right = f.read()
-        assert test_file == right
+        with open(download('http://test.com/dir/test', tmp)) as file:
+            assert file.read() == 'test'
