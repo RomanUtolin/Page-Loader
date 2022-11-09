@@ -20,4 +20,4 @@ def test_loading(mock):
 def test_parser(mock):
     with tempfile.TemporaryDirectory() as tmp:
         with open(download('http://test.com/dir/test', tmp)) as file:
-            assert file.read() == 'test'
+            assert file.read().strip() == 'test'
