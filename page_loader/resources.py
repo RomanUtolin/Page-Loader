@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def download(html, path_to_files, domain, tag):
+def download(html, path_to_files, hostname, tag):
     soup = BeautifulSoup(html, 'html.parser')
     if not os.path.isdir(path_to_files):
         os.mkdir(path_to_files)
@@ -16,7 +16,7 @@ def download(html, path_to_files, domain, tag):
             else:
                 if not link.startswith('/'):
                     link = f'/{link}'
-                link = f'{domain}{link}'
+                link = f'{hostname}{link}'
                 path_to_link = f'{path_to_files}/{link.split("/")[-1]}'
                 link_data = requests.get(link).content
                 with open(path_to_link, 'wb') as f:
