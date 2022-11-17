@@ -1,17 +1,18 @@
 import re
 import os
 import requests
-from page_loader import loading_img
-from page_loader import loading_html
-from page_loader import loading_resources
+from page_loader import html
+from page_loader import resources
 
 
 def download(url, output):
-    domain = ('/'.join(url.split("/")[:3]))
+    tags = [('img', 'src'), ('link', 'href'), ('script', 'src')]
     new_url = re.sub("[^A-Za-z]", "-", url.split("//")[-1])
+    domain = ('/'.join(url.split("/")[:3]))
     path_to_html = os.path.join(output, f'{new_url}.html')
     path_to_files = os.path.join(output, f'{new_url}_files')
-    html = requests.get(url)
-    html = loading_img.download(html, path_to_files, domain)
-    html = loading_resources.download(html, path_to_files, domain)
-    return loading_html.download(html, path_to_html)
+    get_html = requests.get(url).text
+    for tag in tags:
+        temp_html = resources.download(get_html, path_to_files, domain, tag)
+
+    return html.download(temp_html, path_to_html)
