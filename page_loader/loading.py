@@ -7,7 +7,7 @@ from page_loader import resources
 
 
 def download(url, output):
-    tags = [('img', 'src'), ('link', 'href'), ('script', 'src')]
+    tags = ['img', 'link', 'script']
     obj = urlparse(url)
     hostname = f'{obj.scheme}://{obj.hostname}'
     new_url = re.sub("[^A-Za-z]", "-", url.split("//")[-1])
@@ -17,4 +17,4 @@ def download(url, output):
     for tag in tags:
         temp_html = resources.download(temp_html, path_to_files, hostname, tag)
 
-    return html.download(temp_html, path_to_html)
+    return html.save(temp_html, path_to_html)

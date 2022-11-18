@@ -4,13 +4,16 @@ from bs4 import BeautifulSoup
 
 
 def download(html, path_to_files, hostname, tag):
+    tags_link = {'img': 'src',
+                 'link': 'href',
+                 'script': 'src'}
     soup = BeautifulSoup(html, 'html.parser')
     if not os.path.isdir(path_to_files):
         os.mkdir(path_to_files)
-    tags = soup.find_all(tag[0])
+    tags = soup.find_all(tag)
     for t in tags:
-        if t.has_attr(tag[1]):
-            link = t[tag[1]]
+        if t.has_attr(tags_link[tag]):
+            link = t[tags_link[tag]]
             if link.startswith('http') or link.startswith('//'):
                 continue
             else:
@@ -21,6 +24,6 @@ def download(html, path_to_files, hostname, tag):
                 link_data = requests.get(link).content
                 with open(path_to_link, 'wb') as f:
                     f.write(link_data)
-                t[tag[1]] = path_to_link
+                t[tags_link[tag]] = path_to_link
 
     return soup.prettify()
