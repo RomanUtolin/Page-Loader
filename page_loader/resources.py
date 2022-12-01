@@ -20,7 +20,7 @@ def download(html, path_to_files, hostname, tag):
             if link.startswith('https') or link.startswith('//'):
                 continue
             elif link.startswith('http'):
-                link = link[16:]
+                link = link[6:]
             elif not link.startswith('/'):
                 link = f'/{link}'
             link = f'{hostname}{link}'
