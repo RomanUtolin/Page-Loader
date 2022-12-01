@@ -1,14 +1,20 @@
 import argparse
 import os
-from page_loader.loading import download
 
 
 def get_parser():
-    parser = argparse.ArgumentParser(description='Loader url pages')
+    parser = argparse.ArgumentParser(description='Loader Url Pages')
     parser.add_argument('url')
-    parser.add_argument('-o', '--output',
+    parser.add_argument('-o',
+                        '--output',
                         dest='output',
-                        default=os.getcwd()
+                        default=os.getcwd(),
+                        help='set output directory'
                         )
-    arg = parser.parse_args()
-    print(download(arg.url, arg.output))
+    parser.add_argument('-l',
+                        '--log-level',
+                        dest='level',
+                        default='info',
+                        help='set logging level',
+                        )
+    return parser
