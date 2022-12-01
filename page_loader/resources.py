@@ -17,7 +17,7 @@ def download(html, path_to_files, hostname, tag):
     for t in tags:
         if t.has_attr(tags_link[tag]):
             link = t[tags_link[tag]]
-            if link.startswith('http') or link.startswith('//'):
+            if link.startswith('https') or link.startswith('//'):
                 continue
             else:
                 if not link.startswith('/'):
