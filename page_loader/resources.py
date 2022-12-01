@@ -30,7 +30,9 @@ def download(html, path_to_files, hostname, tag):
                     link_data = get_link.content
                     save.save_file(link_data, path_to_link)
                     t[tags_link[tag]] = path_to_link
-                except (requests.exceptions.HTTPError, ConnectionError, OSError) as e:
+                except (requests.exceptions.HTTPError,
+                        ConnectionError,
+                        OSError) as e:
                     debug_info = (e, e.__class__, e.__traceback__)
                     logging.debug(debug_info)
                     logging.warning(
