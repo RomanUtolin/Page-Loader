@@ -2,15 +2,13 @@ import os
 import requests
 import logging
 import re
-from bs4 import BeautifulSoup
 from page_loader import save
 
 
-def download(html, path_to_files, hostname, tag):
+def download(soup, path_to_files, hostname, tag):
     tags_link = {'img': 'src',
                  'link': 'href',
                  'script': 'src'}
-    soup = BeautifulSoup(html, 'html.parser')
     if not os.path.isdir(path_to_files):
         logging.info(f'Create directory : {path_to_files}')
         os.mkdir(path_to_files)
@@ -41,7 +39,6 @@ def download(html, path_to_files, hostname, tag):
                     save.save(link_data, path_to_link)
                     t[tags_link[tag]] =\
                         f'{path_to_files.split("/")[-1]}/{to_file}'
-                    soup.prettify()
                 except (requests.exceptions.HTTPError,
                         ConnectionError,
                         OSError) as e:
@@ -50,4 +47,4 @@ def download(html, path_to_files, hostname, tag):
                     logging.warning(
                         f"{link} wasn't downloaded")
 
-    return soup.prettify()
+    return soup
