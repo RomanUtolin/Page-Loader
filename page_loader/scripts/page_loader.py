@@ -21,7 +21,7 @@ def main():
     args = parser.parse_args()
     setup(args.level)
     try:
-        loading.download(args.url, args.output)
+        print(loading.download(args.url, args.output))
     except Exception as error:
         logging.error(f"Failed: {error}")
         sys.exit(1)
