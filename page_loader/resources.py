@@ -41,6 +41,7 @@ def download(html, path_to_files, hostname, tag):
                     save.save(link_data, path_to_link)
                     t[tags_link[tag]] =\
                         f'{path_to_files.split("/")[-1]}/{to_file}'
+                    soup.prettify()
                 except (requests.exceptions.HTTPError,
                         ConnectionError,
                         OSError) as e:
