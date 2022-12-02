@@ -31,14 +31,13 @@ def download(html, path_to_files, hostname, tag):
                 to_file =\
                     f'{re.sub("[^A-Za-z]", "-", hostname.split("//")[-1])}' \
                     f'-{"-".join(link.split("/")[3:])}'
+                if '.' not in to_file:
+                    to_file = f"{to_file}.html"
                 path_to_link = f'{path_to_files}/{to_file}'
                 try:
                     get_link = requests.get(link)
                     get_link.raise_for_status()
-                    if tag == 'img':
-                        link_data = get_link.content
-                    else:
-                        link_data = get_link.text
+                    link_data = get_link.content
                     save.save(link_data, path_to_link)
                     t[tags_link[tag]] =\
                         f'{path_to_files.split("/")[-1]}/{to_file}'
