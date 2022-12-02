@@ -12,4 +12,4 @@ def save_file(file, path):
     with open(path, 'wb') as f:
         f.write(file)
         logging.info(f'Saved file to {path}')
-    return path
+    print(path)
