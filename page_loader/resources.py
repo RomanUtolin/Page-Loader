@@ -29,6 +29,9 @@ def download(html, path_to_files, hostname, tag):
                     link = f'{hostname}{link}'
                 path_to_link = f'{path_to_files}/{link.split("/")[-1]}'
                 try:
+                    if link.endswith('.html'):
+                        html = link
+                        download(html, path_to_files, hostname, tag)
                     get_link = requests.get(link)
                     get_link.raise_for_status()
                     if tag == 'img':
