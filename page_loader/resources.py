@@ -28,9 +28,9 @@ def download(html, path_to_files, hostname, tag):
                     link = f'{hostname}/{link}'
                 else:
                     link = f'{hostname}{link}'
-                path_to_link = f'{path_to_files}' \
-                    f'/{re.sub("[^A-Za-z]", "-", hostname.split("//")[-1])}' \
-                    f'-{"-".join(link.split("/")[3:])}'
+                path_to_link = f'{path_to_files.split("/")[-1]}/' \
+                    f'{re.sub("[^A-Za-z]", "-", hostname.split("//")[-1])}-' \
+                    f'{"-".join(link.split("/")[3:])}'
                 try:
                     get_link = requests.get(link)
                     get_link.raise_for_status()
