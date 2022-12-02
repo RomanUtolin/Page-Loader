@@ -29,7 +29,7 @@ def download(url, output):
                                                hostname,
                                                tag)
                 bar.next()
-        return save.save_html(temp_html, path_to_html)
+        return save.save(temp_html, path_to_html)
     except (requests.exceptions.HTTPError, ConnectionError) as e:
         logging.debug(e, e.__class__, e.__traceback__)
         logging.warning(f"Unsuccessful response from {url}")

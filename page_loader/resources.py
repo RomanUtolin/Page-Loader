@@ -17,7 +17,7 @@ def download(html, path_to_files, hostname, tag):
     for t in tags:
         if t.has_attr(tags_link[tag]):
             link = t[tags_link[tag]]
-            if (link.startswith('http') and not link.startswith(hostname))\
+            if (link.startswith('http') and not link.startswith(hostname)) \
                     or link.startswith('//'):
                 continue
             else:
@@ -31,8 +31,11 @@ def download(html, path_to_files, hostname, tag):
                 try:
                     get_link = requests.get(link)
                     get_link.raise_for_status()
-                    link_data = get_link.content
-                    save.save_file(link_data, path_to_link)
+                    if tag == 'img':
+                        link_data = get_link.content
+                    else:
+                        link_data = get_link.text
+                    save.save(link_data, path_to_link)
                     t[tags_link[tag]] = path_to_link
                 except (requests.exceptions.HTTPError,
                         ConnectionError,
