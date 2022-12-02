@@ -28,9 +28,10 @@ def download(html, path_to_files, hostname, tag):
                     link = f'{hostname}/{link}'
                 else:
                     link = f'{hostname}{link}'
-                path_to_link = f'{path_to_files.split("/")[-1]}/' \
-                    f'{re.sub("[^A-Za-z]", "-", hostname.split("//")[-1])}-' \
-                    f'{"-".join(link.split("/")[3:])}'
+                to_file =\
+                    f'{re.sub("[^A-Za-z]", "-", hostname.split("//")[-1])}' \
+                    f'-{"-".join(link.split("/")[3:])}'
+                path_to_link = f'{path_to_files}/{to_file}'
                 try:
                     get_link = requests.get(link)
                     get_link.raise_for_status()
@@ -39,7 +40,8 @@ def download(html, path_to_files, hostname, tag):
                     else:
                         link_data = get_link.text
                     save.save(link_data, path_to_link)
-                    t[tags_link[tag]] = path_to_link
+                    t[tags_link[tag]] =\
+                        f'{path_to_files.split("/")[-1]}/{to_file}'
                 except (requests.exceptions.HTTPError,
                         ConnectionError,
                         OSError) as e:
