@@ -21,10 +21,10 @@ def download(html, path_to_files, hostname, tag):
                     or link.startswith('//'):
                 continue
             else:
-                if not link.startswith('/'):
-                    link = f'{hostname}/{link}'
-                elif link.startswith(hostname):
+                if link.startswith(hostname):
                     link = link
+                elif not link.startswith('/'):
+                    link = f'{hostname}/{link}'
                 else:
                     link = f'{hostname}{link}'
                 path_to_link = f'{path_to_files}/{link.split("/")[-1]}'
