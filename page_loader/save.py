@@ -6,7 +6,6 @@ def save(content, path):
         mode = 'wb'
     else:
         mode = 'w'
-        print(path)
     with open(path, mode) as file:
         file.write(content)
         logging.info(f'Saved to {path}')
