@@ -23,8 +23,7 @@ def main():
     logging.info(f'requested url: {args.url}')
     logging.info(f'output path: {args.output}')
     try:
-        loading.download(args.url, args.output)
-        print(f'Page was downloaded as {args.output}')
+        print(loading.download(args.url, args.output))
     except Exception as error:
         logging.error(f"Failed: {error}")
         sys.exit(1)

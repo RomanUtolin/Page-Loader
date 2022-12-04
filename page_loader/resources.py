@@ -19,25 +19,16 @@ def download(soup, path, hostname, tag):
             if (link.startswith('http') and not link.startswith(hostname)) \
                     or link.startswith('//'):
                 continue
-            elif link.startswith(hostname):
-                link = link
-            elif not link.startswith('/'):
-                link = f'{hostname}/{link}'
-            else:
-                link = f'{hostname}{link}'
-            to_file = \
-                f'{re.sub("[^A-Za-z]", "-", hostname.split("//")[-1])}' \
-                f'-{"-".join(link.split("/")[3:])}'
-            if '.' not in to_file:
-                to_file = f"{to_file}.html"
-            path_to_link = f'{path}/{to_file}'
+            link = url(link, hostname)
+            file_ = name_file(link, hostname)
+            path_to_link = f'{path}/{file_}'
             try:
                 get_link = requests.get(link)
                 get_link.raise_for_status()
                 link_data = get_link.content
                 save.save(link_data, path_to_link)
                 tag_[tags[tag]] = \
-                    f'{path.split("/")[-1]}/{to_file}'
+                    f'{path.split("/")[-1]}/{file_}'
             except (requests.exceptions.HTTPError,
                     ConnectionError,
                     OSError) as e:
@@ -47,3 +38,21 @@ def download(soup, path, hostname, tag):
                     f"{link} wasn't downloaded")
 
     return soup
+
+
+def url(link, hostname):
+    if link.startswith(hostname):
+        pass
+    elif not link.startswith('/'):
+        link = f'{hostname}/{link}'
+    else:
+        link = f'{hostname}{link}'
+    return link
+
+
+def name_file(link, hostname):
+    name = f'{re.sub("[^A-Za-z]", "-", hostname.split("//")[-1])}-' \
+           f'{"-".join(link.split("/")[3:])}'
+    if '.' not in name:
+        name = f"{name}.html"
+    return name
