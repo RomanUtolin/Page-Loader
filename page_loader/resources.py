@@ -1,8 +1,8 @@
 import os
 import requests
 import logging
-import re
 from page_loader import save
+from page_loader import names
 
 
 def download(soup, path, hostname, tag):
@@ -19,16 +19,15 @@ def download(soup, path, hostname, tag):
             if (link.startswith('http') and not link.startswith(hostname)) \
                     or link.startswith('//'):
                 continue
-            link = url(link, hostname)
-            file_ = name_file(link, hostname)
+            link = names.link(link, hostname)
+            file_ = names.file(link, hostname)
             path_to_link = f'{path}/{file_}'
             try:
                 get_link = requests.get(link)
                 get_link.raise_for_status()
                 link_data = get_link.content
                 save.save(link_data, path_to_link)
-                tag_[tags[tag]] = \
-                    f'{path.split("/")[-1]}/{file_}'
+                tag_[tags[tag]] = f'{path.split("/")[-1]}/{file_}'
             except (requests.exceptions.HTTPError,
                     ConnectionError,
                     OSError) as e:
@@ -38,21 +37,3 @@ def download(soup, path, hostname, tag):
                     f"{link} wasn't downloaded")
 
     return soup
-
-
-def url(link, hostname):
-    if link.startswith(hostname):
-        pass
-    elif not link.startswith('/'):
-        link = f'{hostname}/{link}'
-    else:
-        link = f'{hostname}{link}'
-    return link
-
-
-def name_file(link, hostname):
-    name = f'{re.sub("[^A-Za-z]", "-", hostname.split("//")[-1])}-' \
-           f'{"-".join(link.split("/")[3:])}'
-    if '.' not in name:
-        name = f"{name}.html"
-    return name

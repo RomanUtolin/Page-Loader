@@ -1,4 +1,3 @@
-import re
 import os
 import requests
 import logging
@@ -8,13 +7,14 @@ from progress.bar import IncrementalBar
 from urllib.parse import urlparse
 from page_loader import save
 from page_loader import resources
+from page_loader import names
 
 
 def download(url, output):
     tags = ['img', 'link', 'script']
     obj = urlparse(url)
     hostname = f'{obj.scheme}://{obj.hostname}'
-    new_url = re.sub("[^A-Za-z]", "-", url.split("//")[-1])
+    new_url = names.url(url)
     path_to_html = os.path.join(output, f'{new_url}.html')
     path_to_files = os.path.join(output, f'{new_url}_files')
     try:
