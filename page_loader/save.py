@@ -2,8 +2,12 @@ import logging
 
 
 def save(content, path):
-    write_mode = 'wb' if isinstance(content, bytes) else 'w'
-    with open(path, write_mode) as file:
+    if isinstance(content, bytes):
+        mode = 'wb'
+    else:
+        mode = 'w'
+        print(path)
+    with open(path, mode) as file:
         file.write(content)
         logging.info(f'Saved to {path}')
     return path

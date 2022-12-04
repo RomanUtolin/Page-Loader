@@ -2,6 +2,7 @@ import re
 import os
 import requests
 import logging
+import sys
 from bs4 import BeautifulSoup
 from progress.bar import IncrementalBar
 from urllib.parse import urlparse
@@ -31,7 +32,8 @@ def download(url, output):
                                                hostname,
                                                tag)
                 bar.next()
-        return save.save(temp_html.prettify(), path_to_html)
+            save.save(temp_html.prettify(), path_to_html)
     except (requests.exceptions.HTTPError, ConnectionError) as e:
         logging.debug(e, e.__class__, e.__traceback__)
         logging.warning(f"Unsuccessful response from {url}")
+        sys.exit(1)
